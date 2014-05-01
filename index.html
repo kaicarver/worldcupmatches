@@ -1,0 +1,181 @@
+
+
+<style>
+body { font-family: Arial; }
+div.center {
+  text-align: center;
+}
+div.group, div.group2 {
+  display: inline-block;
+  width: 150px;
+}
+div.group2 {
+  width: 30%;
+  min-width: 320px;
+}
+ul { 
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+span.group { font-size: 0.8em; }
+span.country { display: inline-block; width: 140px; text-align: left; xbackground-color: yellow; border: solid gray 1px; padding-bottom: 0px; margin: 1px;}
+span.rank {
+  font-size: 0.7em; 
+  vertical-align: super
+}
+img { vertical-align: -20%; }
+</style>
+
+<div id="content">ok</div>
+
+<script>
+var countries = 
+{
+"bra" : { "group" : "A", "rank" : 6 , "name" : "Brazil" }, 
+"cro" : { "group" : "A", "rank" : 20, "name" : "Croatia" }, 
+"mex" : { "group" : "A", "rank" : 19, "name" : "Mexico" }, 
+"cmr" : { "group" : "A", "rank" : 50, "name" : "Cameroon" }, 
+
+"esp" : { "group" : "B", "rank" : 1 , "name" : "Spain" }, 
+"ned" : { "group" : "B", "rank" : 15, "name" : "Netherlands" }, 
+"chi" : { "group" : "B", "rank" : 14, "name" : "Chile" }, 
+"aus" : { "group" : "B", "rank" : 59, "name" : "Australia" }, 
+
+"col" : { "group" : "C", "rank" : 4,  "name" : "Colombia" }, 
+"gre" : { "group" : "C", "rank" : 10, "name" : "Greece" }, 
+"civ" : { "group" : "C", "rank" : 21, "name" : "Ivory Coast" }, 
+"jpn" : { "group" : "C", "rank" : 47, "name" : "Japan" }, 
+
+"uru" : { "group" : "D", "rank" : 5 , "name" : "Uruguay" }, 
+"crc" : { "group" : "D", "rank" : 34, "name" : "Costa Rica" }, 
+"eng" : { "group" : "D", "rank" : 11, "name" : "England" }, 
+"ita" : { "group" : "D", "rank" : 9 , "name" : "Italy" }, 
+
+"sui" : { "group" : "E", "rank" : 8 , "name" : "Switzerland" }, 
+"ecu" : { "group" : "E", "rank" : 28, "name" : "Ecuador" }, 
+"fra" : { "group" : "E", "rank" : 16, "name" : "France" }, 
+"hon" : { "group" : "E", "rank" : 32, "name" : "Honduras" }, 
+
+"arg" : { "group" : "F", "rank" : 6 , "name" : "Argentina" }, 
+"bih" : { "group" : "F", "rank" : 25, "name" : "Bosnia" }, 
+"irn" : { "group" : "F", "rank" : 37, "name" : "Iran" }, 
+"nga" : { "group" : "F", "rank" : 45, "name" : "Nigeria" }, 
+
+"ger" : { "group" : "G", "rank" : 2 , "name" : "Germany" }, 
+"por" : { "group" : "G", "rank" : 3 , "name" : "Portugal" }, 
+"gha" : { "group" : "G", "rank" : 38, "name" : "Ghana" }, 
+"usa" : { "group" : "G", "rank" : 13, "name" : "U.S.A." }, 
+
+"bel" : { "group" : "H", "rank" : 12, "name" : "Belgium" }, 
+"alg" : { "group" : "H", "rank" : 25, "name" : "Algeria" }, 
+"rus" : { "group" : "H", "rank" : 18, "name" : "Russia" }, 
+"kor" : { "group" : "H", "rank" : 56, "name" : "Korea" }
+};
+
+var groups = {};
+
+init();
+setContent("<div class=\"center\">")
+
+group_stage();
+
+// second stage
+addContent("<div>")
+var abcd = eighths_and_quarters("A","B","C","D")
+var efgh = eighths_and_quarters("E","F","G","H")
+addContent("</div>")
+
+// semifinals
+addContent("<div>semifinals</div>");
+var f1 = oppose(abcd[0],efgh[0])
+var f2 = oppose(abcd[1],efgh[1])
+
+// finals
+addContent("<div>third place (todo)</div>");
+//oppose(l1,l2)
+addContent("<div>final</div>");
+w = oppose(f1,f2)
+addContent("<div>winner</div>");
+addContent(toHtml(w));
+addContent("</div>")
+
+displayContent();
+
+// set up groups hash table
+function init() {
+  var country_keys = Object.keys(countries);
+  for (var i = 0; i < country_keys.length; i++) {
+    var code = country_keys[i]
+    var c = countries[code];
+    c.code = code;
+    autopush(groups, c.group, code);
+  }
+}
+
+function group_stage() {
+  var html = "";
+  var group_keys = Object.keys(groups).sort();
+  for (var i = 0; i < group_keys.length; i++) {
+    var code = group_keys[i];
+    // sort countries in group by rank
+    groups[code] = groups[code].sort(function (c1, c2) { return countries[c1].rank - countries[c2].rank; });
+    html += "<div class=\"group\"><span class=\"group\">"+ code +"</span><ul>";
+    for (var j = 0; j < groups[code].length; j++) {
+      var c = countries[groups[code][j]];
+      html += "<li>"+toHtml(c)+"</li>";
+    }
+    html += "</ul></div>";
+  }
+  addContent(html);
+}
+
+function eighths_and_quarters(a,b,c,d) {
+  addContent("<div class=\"group2\">");
+  addContent("<div>eighths <span class=\"rank\">"+ a+b+c+d +"</span></div>");
+  var ab = first_vs_second(a,b)
+  var cd = first_vs_second(c,d)
+  var ba = first_vs_second(b,a)
+  var dc = first_vs_second(d,c)
+
+  addContent("<div>quarters <span class=\"rank\">"+ a+b+c+d +"</span></div>");
+  var abcd = oppose(ab,cd)
+  var badc = oppose(ba,dc)
+  addContent("</div>");
+
+  return [abcd,badc];
+}
+
+function first_vs_second(a,b) {
+  return oppose(countries[groups[a][0]],countries[groups[b][1]])
+}
+
+function oppose(a,b) {
+  var w = a;
+  var diff = b.rank - a.rank;
+  if (a.rank > b.rank) { w = b; diff = -diff; }
+  addContent("<div class=\"group2\">");
+  addContent("<div>" + toHtml(a) + " vs. " + toHtml(b) + "</div>");
+  addContent("</div>");
+  return w
+}
+
+var htmlContent = "";
+function setContent(html) { htmlContent = html }
+function addContent(html) { htmlContent += html }
+function displayContent() { document.getElementById("content").innerHTML = htmlContent }
+
+function toHtml(c) {
+  return "<span class=\"country\"><img alt=\"\" src=\""+c.code+".png\"> <span>"+c.name+"<span class=\"rank\">"+c.rank+"</span>"+"</span>"+"</span>"
+}
+
+// push value to autovivified array stored at specified key of an object
+function autopush(obj, key, val) {
+  if (typeof obj[key] == 'undefined') {
+    obj[key] = [];
+  }
+  obj[key].push(val);
+}
+
+</script>
+
