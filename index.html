@@ -1,5 +1,6 @@
-
-
+<html>
+<head>
+<title>World Cup 2014 Matches Predictor</title>
 <style>
 body { font-family: Arial; }
 div.center {
@@ -25,8 +26,23 @@ span.rank {
   vertical-align: super
 }
 img { vertical-align: -20%; }
+div#help { position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color:rgba(255,255,255,0.6); display: none; }
+div#helpcontent { 
+  padding: 20px;
+  padding-left: 30px;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background-color:rgba(255,255,255,0.9);
+  width: 50%; height: 50%;
+  border: solid gray 1px;
+  opacity: initial;
+  overflow: auto;
+}
+#closehelp { position: float; text-align: right; }
 </style>
-
+</head>
+<body>
 <div id="content">ok</div>
 
 <script>
@@ -177,5 +193,25 @@ function autopush(obj, key, val) {
   obj[key].push(val);
 }
 
-</script>
+function showHelp(show) {
+  var style = document.getElementById("help").style;
+  if (show)
+    style.display = "block";
+  else
+    style.display = "none";
+}
 
+</script>
+<button onclick="showHelp(true)">Info</button>
+<div id="help" onclick="showHelp(false)">
+<div id="helpcontent" onclick="">
+<div id="closehelp"><button onclick="showHelp(false)">Close</button></div>
+<p>This page shows the countries taking part in the 2014 World Cup.</p>
+<p>The number next to each name is the <a href="http://www.fifa.com/worldranking/rankingtable/">ranking</a> of that country's team.</p>
+<p>Based on this ranking and on the <a href="http://www.fifa.com/worldcup/groups/">groups</a> and <a href="http://www.fifa.com/worldcup/matches/">match schedule</a>, a prediction is made of the outcome.</p>
+<p>A future version of this page may allow you alter the prediction by changing the rankings or the outcome of the matches. Which would be more interesting.</p>
+<p><a href="https://twitter.com/kaicarver">@kaicarver</a></p>
+</div>
+</div>
+</body>
+</html>
