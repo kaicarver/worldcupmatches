@@ -20,7 +20,12 @@ ul {
   margin: 0;
 }
 span.group { font-size: 0.8em; }
-span.country { display: inline-block; width: 140px; text-align: left; xbackground-color: yellow; border: solid gray 1px; padding-bottom: 0px; margin: 1px;}
+span.country { display: inline-block; width: 140px; text-align: left; xbackground-color: yellow; border: dotted gray 1px; padding-bottom: 0px; margin: 1px;}
+span.winner1 { background-color: rgba(0, 0, 255, 0.15); border: solid black 1px; }
+span.winner2 { background-color: rgba(0, 0, 255, 0.15); border: solid black 1px; 
+  background-image: repeating-linear-gradient(135deg, transparent, transparent 10px, rgba(255,255,255,.5) 10px, rgba(255,255,255,.5) 20px);
+}
+
 span.rank {
   font-size: 0.7em; 
   vertical-align: super
@@ -113,7 +118,7 @@ addContent("<div>third place (todo)</div>");
 addContent("<div>final</div>");
 w = oppose(f1,f2)
 addContent("<div>winner</div>");
-addContent(toHtml(w));
+addContent(toHtml(w,1));
 addContent("</div>")
 
 displayContent();
@@ -139,7 +144,7 @@ function group_stage() {
     html += "<div class=\"group\"><span class=\"group\">"+ code +"</span><ul>";
     for (var j = 0; j < groups[code].length; j++) {
       var c = countries[groups[code][j]];
-      html += "<li>"+toHtml(c)+"</li>";
+      html += "<li>"+toHtml(c,j<2?j+1:false)+"</li>"; // the top two of a group are displayed differently
     }
     html += "</ul></div>";
   }
@@ -181,8 +186,9 @@ function setContent(html) { htmlContent = html }
 function addContent(html) { htmlContent += html }
 function displayContent() { document.getElementById("content").innerHTML = htmlContent }
 
-function toHtml(c) {
-  return "<span class=\"country\"><img alt=\"\" src=\""+c.code+".png\"> <span>"+c.name+"<span class=\"rank\">"+c.rank+"</span>"+"</span>"+"</span>"
+function toHtml(c, winner) {
+  var winclass = winner ? " winner"+winner : ""; // class for winner can be "winner1" or "winner2" (for group stage)
+  return "<span class=\"country"+winclass+"\"><img alt=\"\" src=\""+c.code+".png\"> <span>"+c.name+"<span class=\"rank\">"+c.rank+"</span>"+"</span>"+"</span>"
 }
 
 // push value to autovivified array stored at specified key of an object
