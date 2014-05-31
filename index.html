@@ -115,18 +115,22 @@ var efgh = eighths_and_quarters("E","F","G","H")
 addContent("</div>")
 
 // semifinals
+addContent("<div class=\"group2\">");
 addContent("<div class=\"semis\">");
 addContent("<div>semifinals</div>");
 var f1 = oppose(abcd[0],efgh[0])
 var f2 = oppose(abcd[1],efgh[1])
 addContent("</div>")
+addContent("</div>")
 
 // finals
+addContent("<div class=\"group2\">");
 addContent("<div class=\"finals\">");
 addContent("<div>third place</div>");
 var l = oppose(f1[1],f2[1])
 addContent("<div>final</div>");
 var w = oppose(f1[0],f2[0])
+addContent("</div>")
 addContent("</div>")
 
 displayContent();
