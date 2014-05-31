@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>World Cup 2014 Matches Predictor</title>
+<script src="jquery-1.11.1.min.js"></script>
 <style>
 body { font-family: Arial; }
 div.center {
@@ -25,6 +26,7 @@ span.winner1 { background-color: rgba(0, 0, 255, 0.15); border: solid black 1px;
 span.winner2 { background-color: rgba(0, 0, 255, 0.15); border: solid black 1px; 
   background-image: repeating-linear-gradient(135deg, transparent, transparent 10px, rgba(255,255,255,.5) 10px, rgba(255,255,255,.5) 20px);
 }
+span.vs { font-size: 0.8em; font-style: italic; }
 
 span.rank {
   font-size: 0.7em; 
@@ -101,6 +103,8 @@ setContent("<div class=\"center\">")
 
 group_stage();
 
+displayContent();
+
 // second stage
 addContent("<div>")
 var abcd = eighths_and_quarters("A","B","C","D")
@@ -108,20 +112,40 @@ var efgh = eighths_and_quarters("E","F","G","H")
 addContent("</div>")
 
 // semifinals
+addContent("<div class=\"semis\">");
 addContent("<div>semifinals</div>");
 var f1 = oppose(abcd[0],efgh[0])
 var f2 = oppose(abcd[1],efgh[1])
+addContent("</div>")
 
 // finals
-addContent("<div>third place (todo)</div>");
-//oppose(l1,l2)
+addContent("<div class=\"finals\">");
+addContent("<div>third place</div>");
+var l = oppose(f1[1],f2[1])
 addContent("<div>final</div>");
-w = oppose(f1,f2)
-addContent("<div>winner</div>");
-addContent(toHtml(w,1));
+var w = oppose(f1[0],f2[0])
 addContent("</div>")
 
 displayContent();
+
+// post-layout smarts, uses jquery
+
+$('.country').bind('click', country_click);
+
+function country_click() {
+  // clicking on a country makes it a winner if it wasn't one before (click twice to make it number one in a first-stage group)
+  if (this.parentElement.parentElement.parentElement.className == "group") {
+    //console.log("country_click:", this.className, this.parentElement.parentElement.parentElement.className, this, "group...");
+    if (this.className == "country") { 
+      $(this).parent().parent().find(".country.winner2")[0].className = "country"; this.className = "country winner2";
+    } else if (this.className == "country winner2") { 
+      $(this).parent().parent().find(".country.winner1")[0].className = "country winner2"; this.className = "country winner1"; 
+    }
+  } else {
+    //console.log("country_click:", this.className, this.parentElement.parentElement.parentElement.className, this, $(this).siblings('.country')[0].innerText);
+    if (this.className == "country") { this.className = "country winner1"; $(this).siblings('.country')[0].className = "country"; }
+  }
+}
 
 // set up groups hash table
 function init() {
@@ -153,18 +177,22 @@ function group_stage() {
 
 function eighths_and_quarters(a,b,c,d) {
   addContent("<div class=\"group2\">");
+  addContent("<div class=\"eighths\">");
   addContent("<div>eighths <span class=\"rank\">"+ a+b+c+d +"</span></div>");
   var ab = first_vs_second(a,b)
   var cd = first_vs_second(c,d)
   var ba = first_vs_second(b,a)
   var dc = first_vs_second(d,c)
-
-  addContent("<div>quarters <span class=\"rank\">"+ a+b+c+d +"</span></div>");
-  var abcd = oppose(ab,cd)
-  var badc = oppose(ba,dc)
   addContent("</div>");
 
-  return [abcd,badc];
+  addContent("<div class=\"quarters\">");
+  addContent("<div>quarters <span class=\"rank\">"+ a+b+c+d +"</span></div>");
+  var abcd = oppose(ab[0],cd[0])
+  var badc = oppose(ba[0],dc[0])
+  addContent("</div>");
+  addContent("</div>");
+
+  return [abcd[0],badc[0]];
 }
 
 function first_vs_second(a,b) {
@@ -173,12 +201,15 @@ function first_vs_second(a,b) {
 
 function oppose(a,b) {
   var w = a;
+  var l = b;
+  var aWin = 1;
+  var bWin = 0;
   var diff = b.rank - a.rank;
-  if (a.rank > b.rank) { w = b; diff = -diff; }
-  addContent("<div class=\"group2\">");
-  addContent("<div>" + toHtml(a) + " vs. " + toHtml(b) + "</div>");
+  if (a.rank > b.rank) { w = b; l = a; aWin = 0; bWin = 1; diff = -diff; }
+  addContent("<div>");
+  addContent("<div>" + toHtml(a, aWin) + " <span class=\"vs\">vs.</span> " + toHtml(b, bWin) + "</div>");
   addContent("</div>");
-  return w
+  return [w,l];
 }
 
 var htmlContent = "";
