@@ -133,13 +133,16 @@ displayContent();
 $('.country').bind('click', country_click);
 
 function country_click() {
-  // clicking on a country makes it a winner if it wasn't one before (click twice to make it number one in a first-stage group)
+  // clicking on a country makes it a winner if it wasn't one before (click number two in a first-stage group to make it number one)
   if (this.parentElement.parentElement.parentElement.className == "group") {
     //console.log("country_click:", this.className, this.parentElement.parentElement.parentElement.className, this, "group...");
     if (this.className == "country") { 
-      $(this).parent().parent().find(".country.winner2")[0].className = "country"; this.className = "country winner2";
+      $(this).parent().parent().find(".country.winner2")[0].className = "country";
+      $(this).parent().parent().find(".country.winner1")[0].className = "country winner2";
+      this.className = "country winner1";
     } else if (this.className == "country winner2") { 
-      $(this).parent().parent().find(".country.winner1")[0].className = "country winner2"; this.className = "country winner1"; 
+      $(this).parent().parent().find(".country.winner1")[0].className = "country winner2";
+      this.className = "country winner1"; 
     }
   } else {
     //console.log("country_click:", this.className, this.parentElement.parentElement.parentElement.className, this, $(this).siblings('.country')[0].innerText);
