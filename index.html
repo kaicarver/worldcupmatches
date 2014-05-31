@@ -11,6 +11,9 @@ div.group, div.group2 {
   display: inline-block;
   width: 150px;
 }
+div.groupx {
+  display: inline-block;
+}
 div.group2 {
   width: 30%;
   min-width: 320px;
@@ -164,6 +167,7 @@ function init() {
 function group_stage() {
   var html = "";
   var group_keys = Object.keys(groups).sort();
+  html += "<div class=\"groupx\">"
   for (var i = 0; i < group_keys.length; i++) {
     var code = group_keys[i];
     // sort countries in group by rank
@@ -174,7 +178,9 @@ function group_stage() {
       html += "<li>"+toHtml(c,j<2?j+1:false)+"</li>"; // the top two of a group are displayed differently
     }
     html += "</ul></div>";
+    if (i==3) { html += "</div><div class=\"groupx\">"; }
   }
+  html += "</div>";
   addContent(html);
 }
 
