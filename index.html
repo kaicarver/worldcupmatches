@@ -11,12 +11,14 @@ div.group, div.group2 {
   display: inline-block;
   width: 150px;
 }
-div.groupx {
-  display: inline-block;
-}
 div.group2 {
   width: 30%;
+}
+div.group2, div.groupz {
   min-width: 320px;
+}
+div.groupx {
+  display: inline-block;
 }
 ul { 
   list-style-type: none;
@@ -115,7 +117,7 @@ var efgh = eighths_and_quarters("E","F","G","H")
 addContent("</div>")
 
 // semifinals
-addContent("<div class=\"group2\">");
+addContent("<div class=\"groupz\">");
 addContent("<div class=\"semis\">");
 addContent("<div>semifinals</div>");
 var f1 = oppose(abcd[0],efgh[0])
@@ -124,7 +126,7 @@ addContent("</div>")
 addContent("</div>")
 
 // finals
-addContent("<div class=\"group2\">");
+addContent("<div class=\"groupz\">");
 addContent("<div class=\"finals\">");
 addContent("<div>third place</div>");
 var l = oppose(f1[1],f2[1])
