@@ -157,20 +157,26 @@ displayContent();
 $('.country').bind('click', country_click);
 
 function country_click() {
-  // clicking on a country makes it a winner if it wasn't one before (click number two in a first-stage group to make it number one)
+  // clicking on a country makes it a winner if it wasn't one before
   if (this.parentElement.parentElement.parentElement.className == "group") {
-    //console.log("country_click:", this.className, this.parentElement.parentElement.parentElement.className, this, "group...");
-    if (this.className == "country") { 
+    // in first-stage group, click number two to make it swap to number one, and vice-versa
+		if (this.className == "country") {
+			// clicked becomes number one, number one becomes number two, and number two becomes nothing
       $(this).parent().parent().find(".country.winner2")[0].className = "country";
       $(this).parent().parent().find(".country.winner1")[0].className = "country winner2";
       this.className = "country winner1";
     } else if (this.className == "country winner2") { 
       $(this).parent().parent().find(".country.winner1")[0].className = "country winner2";
       this.className = "country winner1"; 
+    } else if (this.className == "country winner1") { 
+      $(this).parent().parent().find(".country.winner2")[0].className = "country winner1";
+      this.className = "country winner2"; 
     }
   } else {
-    //console.log("country_click:", this.className, this.parentElement.parentElement.parentElement.className, this, $(this).siblings('.country')[0].innerText);
-    if (this.className == "country") { this.className = "country winner1"; $(this).siblings('.country')[0].className = "country"; }
+    if (this.className == "country") {
+      $(this).siblings('.country')[0].className = "country";
+      this.className = "country winner1";
+    }
   }
 }
 
