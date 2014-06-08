@@ -7,15 +7,26 @@ body { font-family: Arial; }
 div.center {
   text-align: center;
 }
+.group_stage, .eighths, .quarters, .semis, .third, .finals {
+  background-color: rgb(235, 235, 235);
+  xborder: solid gray 1px;
+  xborder-radius: 5px;
+  margin: 2px;
+  xpadding: 2px;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-bottom: 3px;
+  display: inline-block;
+}
+.group_stage {
+  padding-bottom: 9px;
+}
 div.group, div.group2 {
   display: inline-block;
   width: 150px;
 }
-div.group2 {
-  width: 30%;
-}
 div.group2, div.groupz {
-  min-width: 320px;
+  min-width: 330px;
 }
 div.groupx {
   display: inline-block;
@@ -26,7 +37,7 @@ ul {
   margin: 0;
 }
 span.group { font-size: 0.8em; }
-span.country { display: inline-block; width: 140px; text-align: left; xbackground-color: yellow; border: dotted gray 1px; padding-bottom: 0px; margin: 1px;}
+span.country { display: inline-block; width: 140px; text-align: left; background-color: white; border: dotted gray 1px; padding-bottom: 0px; margin: 1px;}
 span.winner1 { background-color: rgba(0, 0, 255, 0.15); border: solid black 1px; }
 span.winner2 { background-color: rgba(0, 0, 255, 0.15); border: solid black 1px; 
   background-image: repeating-linear-gradient(135deg, transparent, transparent 10px, rgba(255,255,255,.5) 10px, rgba(255,255,255,.5) 20px);
@@ -127,9 +138,13 @@ addContent("</div>")
 
 // finals
 addContent("<div class=\"groupz\">");
-addContent("<div class=\"finals\">");
+addContent("<div class=\"third\">");
 addContent("<div>third place</div>");
 var l = oppose(f1[1],f2[1])
+addContent("</div>")
+addContent("</div>")
+addContent("<div class=\"groupz\">");
+addContent("<div class=\"finals\">");
 addContent("<div>final</div>");
 var w = oppose(f1[0],f2[0])
 addContent("</div>")
@@ -173,8 +188,11 @@ function init() {
 function group_stage() {
   var html = "";
   var group_keys = Object.keys(groups).sort();
-  html += "<div class=\"groupx\">"
-  html += "<div class=\"groupx\">"
+  html += "<div class=\"group_stage\">\n"
+  html += "<div>group stage</div>\n";
+
+  html += "<div class=\"groupx\">\n"
+  html += "<div class=\"groupx\">\n"
   for (var i = 0; i < group_keys.length; i++) {
     var code = group_keys[i];
     // sort countries in group by rank
@@ -184,11 +202,12 @@ function group_stage() {
       var c = countries[groups[code][j]];
       html += "<li>"+toHtml(c,j<2?j+1:false)+"</li>"; // the top two of a group are displayed differently
     }
-    html += "</ul></div>";
-    if (i%2 == 1) { html += "</div>"; }
-    if (i==3) { html += "</div><div class=\"groupx\">"; }
-    if (i%2 == 1) { html += "<div class=\"groupx\">"; }
+    html += "</ul></div>\n";
+    if (i%2 == 1) { html += "</div>\n"; }
+    if (i==3) { html += "</div><div class=\"groupx\">\n"; }
+    if (i%2 == 1) { html += "<div class=\"groupx\">\n"; }
   }
+  html += "</div>";
   html += "</div>";
   html += "</div>";
   addContent(html);
@@ -265,7 +284,7 @@ function showHelp(show) {
 <p>This page shows the countries taking part in the 2014 World Cup.</p>
 <p>The number next to each name is the <a href="http://www.fifa.com/worldranking/rankingtable/">ranking</a> of that country's team.</p>
 <p>Based on this ranking and on the <a href="http://www.fifa.com/worldcup/groups/">groups</a> and <a href="http://www.fifa.com/worldcup/matches/">match schedule</a>, a prediction is made of the outcome.</p>
-<p>A future version of this page may allow you alter the prediction by changing the rankings or the outcome of the matches. Which would be more interesting.</p>
+<p>A future version of this page may allow you alter the prediction by changing the rankings or the outcome of the matches. Which would allow making more interesting predictions.</p>
 <p><a href="https://twitter.com/kaicarver">@kaicarver</a></p>
 </div>
 </div>
