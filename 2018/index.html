@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>World Cup 2018 Matches Predictor</title>
+<title>2018 FIFA World Cup Russia™ Matches Predictor</title>
 <script src="jquery-1.11.1.min.js"></script>
 <style>
 body { font-family: Arial; }
@@ -48,7 +48,7 @@ span.rank {
   font-size: 0.7em; 
   vertical-align: super
 }
-img { vertical-align: -20%; }
+  img { vertical-align: -20%; height: 22px; width: 34px; }
 div#help { position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color:rgba(255,255,255,0.6); display: none; }
 div#helpcontent { 
   padding: 20px;
@@ -115,38 +115,38 @@ var countries =
 // not used and to be updated, just to see difference in country list compared to last World Cup in source commit...
 // it's just: Object.keys(countries).sort()
 var countriesAlpha = [
-  "alg",
   "arg",
   "aus",
   "bel",
-  "bih",
   "bra",
-  "chi",
-  "civ",
-  "cmr",
   "col",
   "crc",
   "cro",
-  "ecu",
+  "den",
+  "egy",
   "eng",
   "esp",
   "fra",
   "ger",
-  "gha",
-  "gre",
-  "hon",
   "irn",
-  "ita",
+  "isl",
   "jpn",
   "kor",
+  "ksa",
+  "mar",
   "mex",
-  "ned",
   "nga",
+  "pan",
+  "per",
+  "pol",
   "por",
   "rus",
+  "sen",
+  "srb",
   "sui",
-  "uru",
-  "usa"
+  "swe",
+  "tun",
+  "uru"
   ];
 
 var groups = {};
@@ -232,7 +232,7 @@ function group_stage() {
   var html = "";
   var group_keys = Object.keys(groups).sort();
   html += "<div class=\"group_stage\">\n"
-  html += "<div>group stage</div>\n";
+  html += "<div>2018 FIFA World Cup Russia™ - group stage</div>\n";
 
   html += "<div class=\"groupx\">\n"
   html += "<div class=\"groupx\">\n"
@@ -324,11 +324,13 @@ function showHelp(show) {
 <div id="help" onclick="showHelp(false)">
 <div id="helpcontent" onclick="">
 <div id="closehelp"><button onclick="showHelp(false)">Close</button></div>
-<p>This UNDER CONSTRUCTION page will show the countries taking part in the 2018 World Cup. BUT FOR NOW IT'S STILL 2014.</p>
-<p>The number next to each name is the <a href="http://www.fifa.com/worldranking/rankingtable/">ranking</a> of that country's team.</p>
+<p>This page shows the countries taking part in the 2018 FIFA World Cup Russia™.</p>
+<p>It's still under construction, but the number next to each name will soon be the <a href="http://www.fifa.com/worldranking/rankingtable/">ranking</a> of that country's team.</p>
 <p>Based on this ranking and on the <a href="http://www.fifa.com/worldcup/groups/">groups</a> and <a href="http://www.fifa.com/worldcup/matches/">match schedule</a>, a prediction is made of the outcome.</p>
 <p>A future version of this page may allow you alter the prediction by changing the rankings or the outcome of the matches. Which would allow making more interesting predictions.</p>
-<p><a href="https://twitter.com/kaicarver">@kaicarver</a></p>
+<p>There was a similar page for 
+<a href="../index.html">2014 FIFA World Cup Brazil™</a>.</p>
+<p><a href="https://github.com/kaicarver/worldcupmatches">kaicarver</a></p>
 </div>
 </div>
 </body>
