@@ -1,0 +1,298 @@
+<html>
+<head>
+<title>World Cup 2014 Matches Predictor</title>
+<script src="jquery-1.11.1.min.js"></script>
+<style>
+body { font-family: Arial; }
+div.center {
+  text-align: center;
+}
+.group_stage, .eighths, .quarters, .semis, .third, .finals {
+  background-color: rgb(235, 235, 235);
+  xborder: solid gray 1px;
+  xborder-radius: 5px;
+  margin: 2px;
+  xpadding: 2px;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-bottom: 3px;
+  display: inline-block;
+}
+.group_stage {
+  padding-bottom: 9px;
+}
+div.group, div.group2 {
+  display: inline-block;
+  width: 150px;
+}
+div.group2, div.groupz {
+  min-width: 330px;
+}
+div.groupx {
+  display: inline-block;
+}
+ul { 
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+span.group { font-size: 0.8em; }
+span.country { display: inline-block; width: 140px; text-align: left; background-color: white; border: dotted gray 1px; padding-bottom: 0px; margin: 1px;}
+span.winner1 { background-color: rgba(0, 0, 255, 0.15); border: solid black 1px; }
+span.winner2 { background-color: rgba(0, 0, 255, 0.15); border: solid black 1px; 
+  background-image: repeating-linear-gradient(135deg, transparent, transparent 10px, rgba(255,255,255,.5) 10px, rgba(255,255,255,.5) 20px);
+}
+span.vs { font-size: 0.8em; font-style: italic; }
+
+span.rank {
+  font-size: 0.7em; 
+  vertical-align: super
+}
+img { vertical-align: -20%; }
+div#help { position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color:rgba(255,255,255,0.6); display: none; }
+div#helpcontent { 
+  padding: 20px;
+  padding-left: 30px;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background-color:rgba(255,255,255,0.9);
+  width: 50%; height: 50%;
+  border: solid gray 1px;
+  opacity: initial;
+  overflow: auto;
+}
+#closehelp { position: float; text-align: right; }
+</style>
+</head>
+<body>
+<div id="content">ok</div>
+
+<script>
+var countries = 
+{
+"bra" : { "group" : "A", "rank" : 6 , "name" : "Brazil" }, 
+"cro" : { "group" : "A", "rank" : 20, "name" : "Croatia" }, 
+"mex" : { "group" : "A", "rank" : 19, "name" : "Mexico" }, 
+"cmr" : { "group" : "A", "rank" : 50, "name" : "Cameroon" }, 
+
+"esp" : { "group" : "B", "rank" : 1 , "name" : "Spain" }, 
+"ned" : { "group" : "B", "rank" : 15, "name" : "Netherlands" }, 
+"chi" : { "group" : "B", "rank" : 14, "name" : "Chile" }, 
+"aus" : { "group" : "B", "rank" : 59, "name" : "Australia" }, 
+
+"col" : { "group" : "C", "rank" : 4,  "name" : "Colombia" }, 
+"gre" : { "group" : "C", "rank" : 10, "name" : "Greece" }, 
+"civ" : { "group" : "C", "rank" : 21, "name" : "Ivory Coast" }, 
+"jpn" : { "group" : "C", "rank" : 47, "name" : "Japan" }, 
+
+"uru" : { "group" : "D", "rank" : 5 , "name" : "Uruguay" }, 
+"crc" : { "group" : "D", "rank" : 34, "name" : "Costa Rica" }, 
+"eng" : { "group" : "D", "rank" : 11, "name" : "England" }, 
+"ita" : { "group" : "D", "rank" : 9 , "name" : "Italy" }, 
+
+"sui" : { "group" : "E", "rank" : 8 , "name" : "Switzerland" }, 
+"ecu" : { "group" : "E", "rank" : 28, "name" : "Ecuador" }, 
+"fra" : { "group" : "E", "rank" : 16, "name" : "France" }, 
+"hon" : { "group" : "E", "rank" : 32, "name" : "Honduras" }, 
+
+"arg" : { "group" : "F", "rank" : 6 , "name" : "Argentina" }, 
+"bih" : { "group" : "F", "rank" : 25, "name" : "Bosnia" }, 
+"irn" : { "group" : "F", "rank" : 37, "name" : "Iran" }, 
+"nga" : { "group" : "F", "rank" : 45, "name" : "Nigeria" }, 
+
+"ger" : { "group" : "G", "rank" : 2 , "name" : "Germany" }, 
+"por" : { "group" : "G", "rank" : 3 , "name" : "Portugal" }, 
+"gha" : { "group" : "G", "rank" : 38, "name" : "Ghana" }, 
+"usa" : { "group" : "G", "rank" : 13, "name" : "U.S.A." }, 
+
+"bel" : { "group" : "H", "rank" : 12, "name" : "Belgium" }, 
+"alg" : { "group" : "H", "rank" : 25, "name" : "Algeria" }, 
+"rus" : { "group" : "H", "rank" : 18, "name" : "Russia" }, 
+"kor" : { "group" : "H", "rank" : 56, "name" : "Korea" }
+};
+
+var groups = {};
+
+init();
+setContent("<div class=\"center\">")
+
+group_stage();
+
+displayContent();
+
+// second stage
+addContent("<div>")
+var abcd = eighths_and_quarters("A","B","C","D")
+var efgh = eighths_and_quarters("E","F","G","H")
+addContent("</div>")
+
+// semifinals
+addContent("<div class=\"groupz\">");
+addContent("<div class=\"semis\">");
+addContent("<div>semifinals</div>");
+var f1 = oppose(abcd[0],efgh[0])
+var f2 = oppose(abcd[1],efgh[1])
+addContent("</div>")
+addContent("</div>")
+
+// finals
+addContent("<div class=\"groupz\">");
+addContent("<div class=\"third\">");
+addContent("<div>third place</div>");
+var l = oppose(f1[1],f2[1])
+addContent("</div>")
+addContent("</div>")
+addContent("<div class=\"groupz\">");
+addContent("<div class=\"finals\">");
+addContent("<div>final</div>");
+var w = oppose(f1[0],f2[0])
+addContent("</div>")
+addContent("</div>")
+
+displayContent();
+
+// post-layout smarts, uses jquery
+
+$('.country').bind('click', country_click);
+
+function country_click() {
+  // clicking on a country makes it a winner if it wasn't one before
+  if (this.parentElement.parentElement.parentElement.className == "group") {
+    // in first-stage group, click number two to make it swap to number one, and vice-versa
+		if (this.className == "country") {
+			// clicked becomes number one, number one becomes number two, and number two becomes nothing
+      $(this).parent().parent().find(".country.winner2")[0].className = "country";
+      $(this).parent().parent().find(".country.winner1")[0].className = "country winner2";
+      this.className = "country winner1";
+    } else if (this.className == "country winner2") { 
+      $(this).parent().parent().find(".country.winner1")[0].className = "country winner2";
+      this.className = "country winner1"; 
+    } else if (this.className == "country winner1") { 
+      $(this).parent().parent().find(".country.winner2")[0].className = "country winner1";
+      this.className = "country winner2"; 
+    }
+  } else {
+    if (this.className == "country") {
+      $(this).siblings('.country')[0].className = "country";
+      this.className = "country winner1";
+    }
+  }
+}
+
+// set up groups hash table
+function init() {
+  var country_keys = Object.keys(countries);
+  for (var i = 0; i < country_keys.length; i++) {
+    var code = country_keys[i]
+    var c = countries[code];
+    c.code = code;
+    autopush(groups, c.group, code);
+  }
+}
+
+function group_stage() {
+  var html = "";
+  var group_keys = Object.keys(groups).sort();
+  html += "<div class=\"group_stage\">\n"
+  html += "<div>group stage</div>\n";
+
+  html += "<div class=\"groupx\">\n"
+  html += "<div class=\"groupx\">\n"
+  for (var i = 0; i < group_keys.length; i++) {
+    var code = group_keys[i];
+    // sort countries in group by rank
+    groups[code] = groups[code].sort(function (c1, c2) { return countries[c1].rank - countries[c2].rank; });
+    html += "<div class=\"group\"><span class=\"group\">"+ code +"</span><ul>";
+    for (var j = 0; j < groups[code].length; j++) {
+      var c = countries[groups[code][j]];
+      html += "<li>"+toHtml(c,j<2?j+1:false)+"</li>"; // the top two of a group are displayed differently
+    }
+    html += "</ul></div>\n";
+    if (i%2 == 1) { html += "</div>\n"; }
+    if (i==3) { html += "</div><div class=\"groupx\">\n"; }
+    if (i%2 == 1) { html += "<div class=\"groupx\">\n"; }
+  }
+  html += "</div>";
+  html += "</div>";
+  html += "</div>";
+  addContent(html);
+}
+
+function eighths_and_quarters(a,b,c,d) {
+  addContent("<div class=\"group2\">");
+  addContent("<div class=\"eighths\">");
+  addContent("<div>eighths <span class=\"rank\">"+ a+b+c+d +"</span></div>");
+  var ab = first_vs_second(a,b)
+  var cd = first_vs_second(c,d)
+  var ba = first_vs_second(b,a)
+  var dc = first_vs_second(d,c)
+  addContent("</div>");
+
+  addContent("<div class=\"quarters\">");
+  addContent("<div>quarters <span class=\"rank\">"+ a+b+c+d +"</span></div>");
+  var abcd = oppose(ab[0],cd[0])
+  var badc = oppose(ba[0],dc[0])
+  addContent("</div>");
+  addContent("</div>");
+
+  return [abcd[0],badc[0]];
+}
+
+function first_vs_second(a,b) {
+  return oppose(countries[groups[a][0]],countries[groups[b][1]])
+}
+
+function oppose(a,b) {
+  var w = a;
+  var l = b;
+  var aWin = 1;
+  var bWin = 0;
+  var diff = b.rank - a.rank;
+  if (a.rank > b.rank) { w = b; l = a; aWin = 0; bWin = 1; diff = -diff; }
+  addContent("<div>");
+  addContent("<div>" + toHtml(a, aWin) + " <span class=\"vs\">vs.</span> " + toHtml(b, bWin) + "</div>");
+  addContent("</div>");
+  return [w,l];
+}
+
+var htmlContent = "";
+function setContent(html) { htmlContent = html }
+function addContent(html) { htmlContent += html }
+function displayContent() { document.getElementById("content").innerHTML = htmlContent }
+
+function toHtml(c, winner) {
+  var winclass = winner ? " winner"+winner : ""; // class for winner can be "winner1" or "winner2" (for group stage)
+  return "<span class=\"country"+winclass+"\"><img alt=\"\" src=\""+c.code+".png\"> <span>"+c.name+"<span class=\"rank\">"+c.rank+"</span>"+"</span>"+"</span>"
+}
+
+// push value to autovivified array stored at specified key of an object
+function autopush(obj, key, val) {
+  if (typeof obj[key] == 'undefined') {
+    obj[key] = [];
+  }
+  obj[key].push(val);
+}
+
+function showHelp(show) {
+  var style = document.getElementById("help").style;
+  if (show)
+    style.display = "block";
+  else
+    style.display = "none";
+}
+
+</script>
+<button onclick="showHelp(true)">Info</button>
+<div id="help" onclick="showHelp(false)">
+<div id="helpcontent" onclick="">
+<div id="closehelp"><button onclick="showHelp(false)">Close</button></div>
+<p>This page shows the countries taking part in the 2014 World Cup.</p>
+<p>The number next to each name is the <a href="http://www.fifa.com/worldranking/rankingtable/">ranking</a> of that country's team.</p>
+<p>Based on this ranking and on the <a href="http://www.fifa.com/worldcup/groups/">groups</a> and <a href="http://www.fifa.com/worldcup/matches/">match schedule</a>, a prediction is made of the outcome.</p>
+<p>A future version of this page may allow you alter the prediction by changing the rankings or the outcome of the matches. Which would allow making more interesting predictions.</p>
+<p><a href="https://twitter.com/kaicarver">@kaicarver</a></p>
+</div>
+</div>
+</body>
+</html>
