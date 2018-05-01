@@ -71,48 +71,48 @@ div#helpcontent {
 <script>
 var countries = 
 {
-"bra" : { "group" : "A", "rank" : 6 , "name" : "Brazil" }, 
-"cro" : { "group" : "A", "rank" : 20, "name" : "Croatia" }, 
-"mex" : { "group" : "A", "rank" : 19, "name" : "Mexico" }, 
-"cmr" : { "group" : "A", "rank" : 50, "name" : "Cameroon" }, 
+"rus" : { "group" : "A", "rank" : 0, "name" : "Russia" },
+"ksa" : { "group" : "A", "rank" : 0, "name" : "Saudi Arabia" },
+"egy" : { "group" : "A", "rank" : 0, "name" : "Egypt" },
+"uru" : { "group" : "A", "rank" : 0, "name" : "Uruguay" },
 
-"esp" : { "group" : "B", "rank" : 1 , "name" : "Spain" }, 
-"ned" : { "group" : "B", "rank" : 15, "name" : "Netherlands" }, 
-"chi" : { "group" : "B", "rank" : 14, "name" : "Chile" }, 
-"aus" : { "group" : "B", "rank" : 59, "name" : "Australia" }, 
+"por" : { "group" : "B", "rank" : 0, "name" : "Portugal" },
+"esp" : { "group" : "B", "rank" : 0, "name" : "Spain" },
+"mar" : { "group" : "B", "rank" : 0, "name" : "Morocco" },
+"irn" : { "group" : "B", "rank" : 0, "name" : "IR Iran" },
 
-"col" : { "group" : "C", "rank" : 4,  "name" : "Colombia" }, 
-"gre" : { "group" : "C", "rank" : 10, "name" : "Greece" }, 
-"civ" : { "group" : "C", "rank" : 21, "name" : "Ivory Coast" }, 
-"jpn" : { "group" : "C", "rank" : 47, "name" : "Japan" }, 
+"fra" : { "group" : "C", "rank" : 0, "name" : "France" },
+"aus" : { "group" : "C", "rank" : 0, "name" : "Australia" },
+"per" : { "group" : "C", "rank" : 0, "name" : "Peru" },
+"den" : { "group" : "C", "rank" : 0, "name" : "Denmark" },
 
-"uru" : { "group" : "D", "rank" : 5 , "name" : "Uruguay" }, 
-"crc" : { "group" : "D", "rank" : 34, "name" : "Costa Rica" }, 
-"eng" : { "group" : "D", "rank" : 11, "name" : "England" }, 
-"ita" : { "group" : "D", "rank" : 9 , "name" : "Italy" }, 
+"arg" : { "group" : "D", "rank" : 0, "name" : "Argentina" },
+"isl" : { "group" : "D", "rank" : 0, "name" : "Iceland" },
+"cro" : { "group" : "D", "rank" : 0, "name" : "Croatia" },
+"nga" : { "group" : "D", "rank" : 0, "name" : "Nigeria" },
 
-"sui" : { "group" : "E", "rank" : 8 , "name" : "Switzerland" }, 
-"ecu" : { "group" : "E", "rank" : 28, "name" : "Ecuador" }, 
-"fra" : { "group" : "E", "rank" : 16, "name" : "France" }, 
-"hon" : { "group" : "E", "rank" : 32, "name" : "Honduras" }, 
+"bra" : { "group" : "E", "rank" : 0, "name" : "Brazil" },
+"sui" : { "group" : "E", "rank" : 0, "name" : "Switzerland" },
+"crc" : { "group" : "E", "rank" : 0, "name" : "Costa Rica" },
+"srb" : { "group" : "E", "rank" : 0, "name" : "Serbia" },
 
-"arg" : { "group" : "F", "rank" : 6 , "name" : "Argentina" }, 
-"bih" : { "group" : "F", "rank" : 25, "name" : "Bosnia" }, 
-"irn" : { "group" : "F", "rank" : 37, "name" : "Iran" }, 
-"nga" : { "group" : "F", "rank" : 45, "name" : "Nigeria" }, 
+"ger" : { "group" : "F", "rank" : 0, "name" : "Germany" },
+"mex" : { "group" : "F", "rank" : 0, "name" : "Mexico" },
+"swe" : { "group" : "F", "rank" : 0, "name" : "Sweden" },
+"kor" : { "group" : "F", "rank" : 0, "name" : "Korea Republic" },
 
-"ger" : { "group" : "G", "rank" : 2 , "name" : "Germany" }, 
-"por" : { "group" : "G", "rank" : 3 , "name" : "Portugal" }, 
-"gha" : { "group" : "G", "rank" : 38, "name" : "Ghana" }, 
-"usa" : { "group" : "G", "rank" : 13, "name" : "U.S.A." }, 
+"bel" : { "group" : "G", "rank" : 0, "name" : "Belgium" },
+"pan" : { "group" : "G", "rank" : 0, "name" : "Panama" },
+"tun" : { "group" : "G", "rank" : 0, "name" : "Tunisia" },
+"eng" : { "group" : "G", "rank" : 0, "name" : "England" },
 
-"bel" : { "group" : "H", "rank" : 12, "name" : "Belgium" }, 
-"alg" : { "group" : "H", "rank" : 25, "name" : "Algeria" }, 
-"rus" : { "group" : "H", "rank" : 18, "name" : "Russia" }, 
-"kor" : { "group" : "H", "rank" : 56, "name" : "Korea" }
+"pol" : { "group" : "H", "rank" : 0, "name" : "Poland" },
+"sen" : { "group" : "H", "rank" : 0, "name" : "Senegal" },
+"col" : { "group" : "H", "rank" : 0, "name" : "Colombia" },
+"jpn" : { "group" : "H", "rank" : 0, "name" : "Japan" }
 };
 
-// not used, just to see difference in country list compared to last World Cup in source commit...
+// not used and to be updated, just to see difference in country list compared to last World Cup in source commit...
 // it's just: Object.keys(countries).sort()
 var countriesAlpha = [
   "alg",
