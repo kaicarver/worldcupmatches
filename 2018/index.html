@@ -37,7 +37,7 @@ ul {
   margin: 0;
 }
 span.group { font-size: 0.8em; }
-span.country { display: inline-block; width: 140px; text-align: left; background-color: white; border: dotted gray 1px; padding-bottom: 0px; margin: 1px;}
+span.country { display: inline-block; width: 140px; text-align: left; background-color: white; border: dotted gray 1px; padding-bottom: 0px; margin: 1px; font-size: 0.95em; }
 span.winner1 { background-color: rgba(0, 0, 255, 0.15); border: solid black 1px; }
 span.winner2 { background-color: rgba(0, 0, 255, 0.15); border: solid black 1px; 
   background-image: repeating-linear-gradient(135deg, transparent, transparent 10px, rgba(255,255,255,.5) 10px, rgba(255,255,255,.5) 20px);
@@ -71,45 +71,45 @@ div#helpcontent {
 <script>
 var countries = 
 {
-"rus" : { "group" : "A", "rank" : 0, "name" : "Russia" },
-"ksa" : { "group" : "A", "rank" : 0, "name" : "Saudi Arabia" },
-"egy" : { "group" : "A", "rank" : 0, "name" : "Egypt" },
-"uru" : { "group" : "A", "rank" : 0, "name" : "Uruguay" },
+"rus" : { "group" : "A", "rank" : 66, "name" : "Russia" },
+"ksa" : { "group" : "A", "rank" : 70, "name" : "Saudi Arabia" },
+"egy" : { "group" : "A", "rank" : 46, "name" : "Egypt" },
+"uru" : { "group" : "A", "rank" : 17, "name" : "Uruguay" },
 
-"por" : { "group" : "B", "rank" : 0, "name" : "Portugal" },
-"esp" : { "group" : "B", "rank" : 0, "name" : "Spain" },
-"mar" : { "group" : "B", "rank" : 0, "name" : "Morocco" },
-"irn" : { "group" : "B", "rank" : 0, "name" : "IR Iran" },
+"por" : { "group" : "B", "rank" : 4,  "name" : "Portugal" },
+"esp" : { "group" : "B", "rank" : 8,  "name" : "Spain" },
+"mar" : { "group" : "B", "rank" : 42, "name" : "Morocco" },
+"irn" : { "group" : "B", "rank" : 36, "name" : "IR Iran" },
 
-"fra" : { "group" : "C", "rank" : 0, "name" : "France" },
-"aus" : { "group" : "C", "rank" : 0, "name" : "Australia" },
-"per" : { "group" : "C", "rank" : 0, "name" : "Peru" },
-"den" : { "group" : "C", "rank" : 0, "name" : "Denmark" },
+"fra" : { "group" : "C", "rank" : 7,  "name" : "France" },
+"aus" : { "group" : "C", "rank" : 40, "name" : "Australia" },
+"per" : { "group" : "C", "rank" : 11, "name" : "Peru" },
+"den" : { "group" : "C", "rank" : 12, "name" : "Denmark" },
 
-"arg" : { "group" : "D", "rank" : 0, "name" : "Argentina" },
-"isl" : { "group" : "D", "rank" : 0, "name" : "Iceland" },
-"cro" : { "group" : "D", "rank" : 0, "name" : "Croatia" },
-"nga" : { "group" : "D", "rank" : 0, "name" : "Nigeria" },
+"arg" : { "group" : "D", "rank" : 5,  "name" : "Argentina" },
+"isl" : { "group" : "D", "rank" : 22, "name" : "Iceland" },
+"cro" : { "group" : "D", "rank" : 18, "name" : "Croatia" },
+"nga" : { "group" : "D", "rank" : 109,"name" : "Nigeria" },
 
-"bra" : { "group" : "E", "rank" : 0, "name" : "Brazil" },
-"sui" : { "group" : "E", "rank" : 0, "name" : "Switzerland" },
-"crc" : { "group" : "E", "rank" : 0, "name" : "Costa Rica" },
-"srb" : { "group" : "E", "rank" : 0, "name" : "Serbia" },
+"bra" : { "group" : "E", "rank" : 2,  "name" : "Brazil" },
+"sui" : { "group" : "E", "rank" : 6,  "name" : "Switzerland" },
+"crc" : { "group" : "E", "rank" : 25, "name" : "Costa Rica" },
+"srb" : { "group" : "E", "rank" : 35, "name" : "Serbia" },
 
-"ger" : { "group" : "F", "rank" : 0, "name" : "Germany" },
-"mex" : { "group" : "F", "rank" : 0, "name" : "Mexico" },
-"swe" : { "group" : "F", "rank" : 0, "name" : "Sweden" },
-"kor" : { "group" : "F", "rank" : 0, "name" : "Korea Rep." },
+"ger" : { "group" : "F", "rank" : 1,  "name" : "Germany" },
+"mex" : { "group" : "F", "rank" : 15, "name" : "Mexico" },
+"swe" : { "group" : "F", "rank" : 23, "name" : "Sweden" },
+"kor" : { "group" : "F", "rank" : 61, "name" : "Korea Rep." },
 
-"bel" : { "group" : "G", "rank" : 0, "name" : "Belgium" },
-"pan" : { "group" : "G", "rank" : 0, "name" : "Panama" },
-"tun" : { "group" : "G", "rank" : 0, "name" : "Tunisia" },
-"eng" : { "group" : "G", "rank" : 0, "name" : "England" },
+"bel" : { "group" : "G", "rank" : 3,  "name" : "Belgium" },
+"pan" : { "group" : "G", "rank" : 55, "name" : "Panama" },
+"tun" : { "group" : "G", "rank" : 14, "name" : "Tunisia" },
+"eng" : { "group" : "G", "rank" : 13, "name" : "England" },
 
-"pol" : { "group" : "H", "rank" : 0, "name" : "Poland" },
-"sen" : { "group" : "H", "rank" : 0, "name" : "Senegal" },
-"col" : { "group" : "H", "rank" : 0, "name" : "Colombia" },
-"jpn" : { "group" : "H", "rank" : 0, "name" : "Japan" }
+"pol" : { "group" : "H", "rank" : 10, "name" : "Poland" },
+"sen" : { "group" : "H", "rank" : 28, "name" : "Senegal" },
+"col" : { "group" : "H", "rank" : 16, "name" : "Colombia" },
+"jpn" : { "group" : "H", "rank" : 60, "name" : "Japan" }
 };
 
 // not used and to be updated, just to see difference in country list compared to last World Cup in source commit...
@@ -325,12 +325,12 @@ function showHelp(show) {
 <div id="helpcontent" onclick="">
 <div id="closehelp"><button onclick="showHelp(false)">Close</button></div>
 <p>This page shows the countries taking part in the 2018 FIFA World Cup Russia™.</p>
-<p>It's still under construction, but the number next to each name will soon be the <a href="http://www.fifa.com/worldranking/rankingtable/">ranking</a> of that country's team.</p>
-<p>Based on this ranking and on the <a href="http://www.fifa.com/worldcup/groups/">groups</a> and <a href="http://www.fifa.com/worldcup/matches/">match schedule</a>, a prediction is made of the outcome.</p>
-<p>A future version of this page may allow you alter the prediction by changing the rankings or the outcome of the matches. Which would allow making more interesting predictions.</p>
+<p>It's still under construction, but the number next to each name will soon be the <a href="http://www.fifa.com/worldranking/rankingtable/" target="_blank">ranking</a> of that country's team.</p>
+<p>Based on this ranking and on the <a href="http://www.fifa.com/worldcup/groups/" target="_blank">groups</a> and <a href="http://www.fifa.com/worldcup/matches/" target="_blank">match schedule</a>, a prediction is made of the outcome.</p>
+<p>A future version of this page may allow to alter the prediction by changing the rankings or the outcome of the matches. Which would allow making more interesting predictions.</p>
 <p>There was a similar page for 
 <a href="../index.html">2014 FIFA World Cup Brazil™</a>.</p>
-<p><a href="https://github.com/kaicarver/worldcupmatches">kaicarver</a></p>
+<p><a href="https://github.com/kaicarver/worldcupmatches" target="_blank">kaicarver</a></p>
 </div>
 </div>
 </body>
