@@ -149,49 +149,50 @@ var countriesAlpha = [
   "uru"
   ];
 
-var groups = {};
+var groups;
 
-init();
-setContent("<div class=\"center\">")
+displayAll();
 
-group_stage();
+function displayAll() {
+  init();
+  setContent("<div class=\"center\">")
 
-displayContent();
+  group_stage();
 
-// second stage
-addContent("<div>")
-var abcd = eighths_and_quarters("A","B","C","D")
-var efgh = eighths_and_quarters("E","F","G","H")
-addContent("</div>")
+  // second stage
+  addContent("<div>")
+  var abcd = eighths_and_quarters("A","B","C","D")
+  var efgh = eighths_and_quarters("E","F","G","H")
+  addContent("</div>")
 
-// semifinals
-addContent("<div class=\"groupz\">");
-addContent("<div class=\"semis\">");
-addContent("<div>semifinals</div>");
-var f1 = oppose(abcd[0],efgh[0])
-var f2 = oppose(abcd[1],efgh[1])
-addContent("</div>")
-addContent("</div>")
+  // semifinals
+  addContent("<div class=\"groupz\">");
+  addContent("<div class=\"semis\">");
+  addContent("<div>semifinals</div>");
+  var f1 = oppose(abcd[0],efgh[0])
+  var f2 = oppose(abcd[1],efgh[1])
+  addContent("</div>")
+  addContent("</div>")
 
-// finals
-addContent("<div class=\"groupz\">");
-addContent("<div class=\"third\">");
-addContent("<div>third place</div>");
-var l = oppose(f1[1],f2[1])
-addContent("</div>")
-addContent("</div>")
-addContent("<div class=\"groupz\">");
-addContent("<div class=\"finals\">");
-addContent("<div>final</div>");
-var w = oppose(f1[0],f2[0])
-addContent("</div>")
-addContent("</div>")
+  // finals
+  addContent("<div class=\"groupz\">");
+  addContent("<div class=\"third\">");
+  addContent("<div>third place</div>");
+  var l = oppose(f1[1],f2[1])
+  addContent("</div>")
+  addContent("</div>")
+  addContent("<div class=\"groupz\">");
+  addContent("<div class=\"finals\">");
+  addContent("<div>final</div>");
+  var w = oppose(f1[0],f2[0])
+  addContent("</div>")
+  addContent("</div>")
 
-displayContent();
+  displayContent();
 
-// post-layout smarts, uses jquery
-
-$('.country').bind('click', country_click);
+  // post-layout smarts, uses jquery
+  $('.country').bind('click', country_click);
+}
 
 function country_click() {
   // clicking on a country makes it a winner if it wasn't one before
@@ -219,6 +220,7 @@ function country_click() {
 
 // set up groups hash table
 function init() {
+  groups = {};
   var country_keys = Object.keys(countries);
   for (var i = 0; i < country_keys.length; i++) {
     var code = country_keys[i]
