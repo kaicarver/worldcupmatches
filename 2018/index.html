@@ -37,16 +37,17 @@ ul {
   margin: 0;
 }
 span.group { font-size: 0.8em; }
-span.country { display: inline-block; width: 140px; text-align: left; background-color: white; border: dotted gray 1px; padding-bottom: 0px; margin: 1px; font-size: 0.95em; }
-span.winner1 { background-color: rgba(0, 0, 255, 0.15); border: solid black 1px; }
-span.winner2 { background-color: rgba(0, 0, 255, 0.15); border: solid black 1px; 
+span.country { display: inline-block; width: 140px; text-align: left; background-color: white; border: dotted gray 1px; padding-bottom: 0px; margin: 1px; font-size: 0.95em; background-color: lightgray; cursor: pointer; }
+span.winner1 { background-color: yellow; border: solid black 1px; }
+span.winner2 { background-color: gold; border: solid black 1px; 
   background-image: repeating-linear-gradient(135deg, transparent, transparent 10px, rgba(255,255,255,.5) 10px, rgba(255,255,255,.5) 20px);
 }
 span.vs { font-size: 0.8em; font-style: italic; }
 
 span.rank {
   font-size: 0.7em; 
-  vertical-align: super
+  vertical-align: super;
+  cursor: crosshair;
 }
   img { vertical-align: -20%; height: 22px; width: 34px; }
 div#help { position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color:rgba(255,255,255,0.6); display: none; }
@@ -193,7 +194,7 @@ function displayAll() {
 
   // post-layout smarts, allows manual override of ranking prediction
   // commented out until supported...
-  //$('.country').bind('click', country_click);
+  $('.country').bind('click', country_click);
   $('.rank').bind('click', rank_click);
 }
 
@@ -207,6 +208,7 @@ function rank_click(event) {
     countries[code].rank = r; // set new ranking
     displayAll();
   }
+  return false;
 }
 function country_click(event) {
   if ( event.ctrlKey ) {
