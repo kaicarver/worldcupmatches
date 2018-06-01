@@ -267,7 +267,8 @@ function group_stage() {
     html += "<div class=\"group\"><span class=\"group\">"+ code +"</span><ul>";
     for (var j = 0; j < groups[code].length; j++) {
       var c = countries[groups[code][j]];
-      html += "<li>"+toHtml(c,j<2?j+1:false)+"</li>"; // the top two of a group are displayed differently
+      var winClass = j < 2 ? 'winner'+(j+1) : ""; // the top two of a group have winner1 or 2 class
+      html += "<li>"+toHtml(c, winClass)+"</li>";
     }
     html += "</ul></div>\n";
     if (i%2 == 1) { html += "</div>\n"; }
@@ -311,9 +312,9 @@ function first_vs_second(a,b) {
 function oppose(a,b) {
   var w = a;
   var l = b;
-  var aWin = 1;
-  var bWin = 0;
-  if (a.rank > b.rank) { w = b; l = a; aWin = 0; bWin = 1; }
+  var aWin = 'winner1';
+  var bWin = '';
+  if (a.rank > b.rank) { w = b; l = a; aWin = ''; bWin = 'winner1'; }
   addContent("<div>");
   addContent("<div>" + toHtml(a, aWin) + " <span class=\"vs\">vs.</span> " + toHtml(b, bWin) + "</div>");
   addContent("</div>");
@@ -325,8 +326,8 @@ function setContent(html) { htmlContent = html }
 function addContent(html) { htmlContent += html }
 function displayContent() { document.getElementById("content").innerHTML = htmlContent }
 
-function toHtml(c, winner) {
-  var winclass = winner ? " winner"+winner : ""; // class for winner can be "winner1" or "winner2" (for group stage)
+function toHtml(c, winclass) {
+  if (winclass !== "") winclass = " "+winclass;
   return "<span class=\"country"+winclass+"\"><img alt=\"\" src=\""+c.code+".png\"> <span>"+c.name+"<span class=\"rank\">"+c.rank+"</span>"+"</span>"+"</span>"
 }
 
