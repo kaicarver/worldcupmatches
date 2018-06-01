@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>2018 FIFA World Cup Russia™ Matches Predictor</title>
+<title>2018 FIFA World Cup Russia™ Predictor(ɔ)</title>
 <script src="jquery-1.11.1.min.js"></script>
 <style>
 body { font-family: Arial; }
@@ -9,10 +9,8 @@ div.center {
 }
 .group_stage, .eighths, .quarters, .semis, .third, .finals {
   background-color: rgb(235, 235, 235);
-  xborder: solid gray 1px;
-  xborder-radius: 5px;
+  border-radius: 2px;
   margin: 2px;
-  xpadding: 2px;
   padding-right: 5px;
   padding-left: 5px;
   padding-bottom: 3px;
@@ -288,8 +286,9 @@ function groupSort(c1, c2) {
 
 function group_stage() {
   var html = "";
+  html += "<div>2018 FIFA World Cup Russia™ Predictor<sup>ɔ</sup> - <button onclick=\"showHelp(true)\">Help</button> - <button onclick=\"displayAll()\">Refresh</button>"
   html += "<div class=\"group_stage\">\n"
-  html += "<div>2018 FIFA World Cup Russia™ - group stage - <button onclick=\"showHelp(true)\">Help</button> - <button onclick=\"displayAll()\">Refresh</button></div>\n";
+  html += "<div>group stage</div>\n";
 
   html += "<div class=\"groupx\">\n"
   html += "<div class=\"groupx\">\n"
@@ -311,7 +310,7 @@ function group_stage() {
   html += "</div>";
   html += "</div>";
   addContent(html);
-  }
+}
 
 function eighths_and_quarters(a,b,c,d) {
   addContent("<div class=\"group2\">");
@@ -391,13 +390,13 @@ function showHelp(show) {
 <div id="helpcontent">
 <div id="closehelp"><button onclick="showHelp(false)">Close Help</button></div>
 <p>These are the countries taking part in the 2018 FIFA World Cup Russia™.</p>
-<p>The number next to each name is the <a href="http://www.fifa.com/worldranking/rankingtable/" target="_blank">ranking</a> of that country's team.</p>
-<p>Based on this ranking and on the <a href="http://www.fifa.com/worldcup/groups/" target="_blank">groups</a> and <a href="http://www.fifa.com/worldcup/matches/" target="_blank">match schedule</a>, a prediction is made of the outcome.</p>
-<p>You can change the ranking of a country by clicking on it, which produces a new prediction.</p>
-<p>A future version of this page may allow to alter the prediction by changing the outcome of the matches. Which would allow making more interesting predictions.</p>
+<p>The number next to each name is the <a href="http://www.fifa.com/worldranking/rankingtable/" target="_blank">ranking</a> of that country's team in May 2018.</p>
+<p>Based on this ranking and on the <a href="http://www.fifa.com/worldcup/groups/" target="_blank">groups</a> and <a href="http://www.fifa.com/worldcup/matches/" target="_blank">match schedule</a>, a prediction is made of the tournament's outcome.</p>
+<p>You can alter the prediction by clicking on country names [not fully implemented yet].</p>
+<p>You can also change the ranking of a country by clicking on it, which produces an entirely new prediction.</p>
 <p>There was a similar page for 
 <a href="../index.html">2014 FIFA World Cup Brazil™</a>.</p>
-<p>Source code on Kai's <a href="https://github.com/kaicarver/worldcupmatches" target="_blank">GitHub</a></p>
+<p>The Predictor<sup>ɔ</sup> source code can be seen on Kai's <a href="https://github.com/kaicarver/worldcupmatches" target="_blank">GitHub</a>.</p>
 </div>
 </div>
 </body>
