@@ -245,9 +245,9 @@ function country_click(event) {
   } else {
     if (this.className == "country") {
       e = this;
-      e.className = "country winner1"; elements[e.id] = "winner1";
+      e.className = "country winner1"; elements[e.id] = countryCode(e) + '.' + "winner1";
       e = $(this).siblings('.country')[0];
-      e.className = "country"; elements[e.id] = "";
+      e.className = "country"; elements[e.id] = countryCode(e) + '.';
     }
   }
   displayAll();
@@ -349,13 +349,14 @@ function group_winner(g, n) {
 }
 
 function oppose(a,b, glabel) {
+  // start out assuming a wins
   var w = a;
   var l = b;
   var aWin = 'winner1';
   var bWin = '';
   var aId = glabel+'_1';
   var bId = glabel+'_2';
-  if ((elements[bId] == "winner1") || (elements[aId] != "winner1" && a.rank > b.rank)) {
+  if (!stronger(a, aId, b, bId)) {
     w = b; l = a; aWin = ''; bWin = 'winner1';
   }
   addContent("<div>");
@@ -363,7 +364,18 @@ function oppose(a,b, glabel) {
   addContent("</div>");
   return [w,l];
 }
-
+function stronger(a, aId, b, bId) {
+  // check for manual override for this match between these two countries
+  if (typeof elements[aId] !== 'undefined' && typeof elements[bId] !== 'undefined') {
+    if ((elements[aId] == a.code+'.'+"winner1") && (elements[bId] == b.code+'.')) {
+      return true;
+    } else if ((elements[aId] == a.code+'.') && (elements[bId] == b.code+'.winner1')) {
+      return false;
+    }
+  }
+  // otherwise a wins if its rank is lower than or equal to b
+  return a.rank <= b.rank;
+}
 var htmlContent = "";
 function setContent(html) { htmlContent = html }
 function addContent(html) { htmlContent += html }
