@@ -62,7 +62,8 @@ div#helpcontent {
   opacity: initial;
   overflow: auto;
 }
-#closehelp { position: float; text-align: right; }
+  #closehelp { position: absolute; right: 0px; top: 0px; margin-right: 0.5em; margin-top: 0.5em; }
+  button { font-size: 0.7em; }
 </style>
 </head>
 <body>
@@ -190,16 +191,33 @@ function displayAll() {
 
   displayContent();
 
-  // post-layout smarts, uses jquery
-  $('.country').bind('click', country_click);
+  // post-layout smarts, allows manual override of ranking prediction
+  // commented out until supported...
+  //$('.country').bind('click', country_click);
+  $('.rank').bind('click', rank_click);
 }
 
-function country_click() {
+function rank_click(event) {
+  var c = this.parentElement.parentElement;
+  var r = window.prompt('New ranking for ' + c.children[1].childNodes[0].nodeValue +':', c.children[1].children[0].innerText);
+  if (r != null && !isNaN(r)) {
+    var img = c.children[0].src;
+    var i = img.lastIndexOf('/')+1;
+    var code = img.substring(i, i+3);
+    countries[code].rank = r; // set new ranking
+    displayAll();
+  }
+}
+function country_click(event) {
+  if ( event.ctrlKey ) {
+    //var sign = window.prompt('Ranking ' + this.children[1].childNodes[0].nodeValue +':', this.children[1].children[0].innerText);
+    //return;
+  }
   // clicking on a country makes it a winner if it wasn't one before
   if (this.parentElement.parentElement.parentElement.className == "group") {
     // in first-stage group, click number two to make it swap to number one, and vice-versa
-		if (this.className == "country") {
-			// clicked becomes number one, number one becomes number two, and number two becomes nothing
+    if (this.className == "country") {
+      // clicked becomes number one, number one becomes number two, and number two becomes nothing
       $(this).parent().parent().find(".country.winner2")[0].className = "country";
       $(this).parent().parent().find(".country.winner1")[0].className = "country winner2";
       this.className = "country winner1";
@@ -234,7 +252,7 @@ function group_stage() {
   var html = "";
   var group_keys = Object.keys(groups).sort();
   html += "<div class=\"group_stage\">\n"
-  html += "<div>2018 FIFA World Cup Russia™ - group stage</div>\n";
+  html += "<div>2018 FIFA World Cup Russia™ - group stage - <button onclick=\"showHelp(true)\">Help</button></div>\n";
 
   html += "<div class=\"groupx\">\n"
   html += "<div class=\"groupx\">\n"
@@ -322,17 +340,17 @@ function showHelp(show) {
 }
 
 </script>
-<button onclick="showHelp(true)">Info</button>
-<div id="help" onclick="showHelp(false)">
-<div id="helpcontent" onclick="">
-<div id="closehelp"><button onclick="showHelp(false)">Close</button></div>
-<p>This page shows the countries taking part in the 2018 FIFA World Cup Russia™.</p>
-<p>It's still under construction, but the number next to each name will soon be the <a href="http://www.fifa.com/worldranking/rankingtable/" target="_blank">ranking</a> of that country's team.</p>
+<div id="help" xonclick="showHelp(false)">
+<div id="helpcontent">
+<div id="closehelp"><button onclick="showHelp(false)">Close Help</button></div>
+<p>These are the countries taking part in the 2018 FIFA World Cup Russia™.</p>
+<p>The number next to each name is the <a href="http://www.fifa.com/worldranking/rankingtable/" target="_blank">ranking</a> of that country's team.</p>
 <p>Based on this ranking and on the <a href="http://www.fifa.com/worldcup/groups/" target="_blank">groups</a> and <a href="http://www.fifa.com/worldcup/matches/" target="_blank">match schedule</a>, a prediction is made of the outcome.</p>
-<p>A future version of this page may allow to alter the prediction by changing the rankings or the outcome of the matches. Which would allow making more interesting predictions.</p>
+<p>You can change the ranking of a country by clicking on it, which produces a new prediction.</p>
+<p>A future version of this page may allow to alter the prediction by changing the outcome of the matches. Which would allow making more interesting predictions.</p>
 <p>There was a similar page for 
 <a href="../index.html">2014 FIFA World Cup Brazil™</a>.</p>
-<p><a href="https://github.com/kaicarver/worldcupmatches" target="_blank">kaicarver</a></p>
+<p>Source code on Kai's <a href="https://github.com/kaicarver/worldcupmatches" target="_blank">GitHub</a></p>
 </div>
 </div>
 </body>
