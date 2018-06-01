@@ -242,15 +242,15 @@ function country_click(event) {
       e = this;
       e.className = "country winner2"; elements[e.id] = "winner2";
     }
-    displayAll();
   } else {
     if (this.className == "country") {
-      e = $(this).siblings('.country')[0];
-      e.className = "country";
       e = this;
-      e.className = "country winner1";
+      e.className = "country winner1"; elements[e.id] = "winner1";
+      e = $(this).siblings('.country')[0];
+      e.className = "country"; elements[e.id] = "";
     }
   }
+  displayAll();
 }
 
 // set up groups hash table
@@ -316,7 +316,6 @@ function group_stage() {
 
 function eighths_and_quarters(a,b,c,d) {
   var glabel = (a + b + c + d).toLowerCase();
-  console.log(glabel);
   addContent("<div class=\"group2\">");
   addContent("<div class=\"eighths\">");
   addContent("<div>eighths <span class=\"rank\">"+ a+b+c+d +"</span></div>");
@@ -354,9 +353,13 @@ function oppose(a,b, glabel) {
   var l = b;
   var aWin = 'winner1';
   var bWin = '';
-  if (a.rank > b.rank) { w = b; l = a; aWin = ''; bWin = 'winner1'; }
+  var aId = glabel+'_1';
+  var bId = glabel+'_2';
+  if ((elements[bId] == "winner1") || (elements[aId] != "winner1" && a.rank > b.rank)) {
+    w = b; l = a; aWin = ''; bWin = 'winner1';
+  }
   addContent("<div>");
-  addContent("<div>" + toHtml(a, aWin, glabel+'_1') + " <span class=\"vs\">vs.</span> " + toHtml(b, bWin, glabel+'_2') + "</div>");
+  addContent("<div>" + toHtml(a, aWin, aId) + " <span class=\"vs\">vs.</span> " + toHtml(b, bWin, bId) + "</div>");
   addContent("</div>");
   return [w,l];
 }
