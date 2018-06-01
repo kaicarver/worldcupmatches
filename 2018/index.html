@@ -202,13 +202,15 @@ function rank_click(event) {
   var c = this.parentElement.parentElement;
   var r = window.prompt('New ranking for ' + c.children[1].childNodes[0].nodeValue +':', c.children[1].children[0].innerText);
   if (r != null && !isNaN(r)) {
-    var img = c.children[0].src;
-    var i = img.lastIndexOf('/')+1;
-    var code = img.substring(i, i+3);
-    countries[code].rank = r; // set new ranking
+    countries[countryCode(c)].rank = r; // set new ranking
     displayAll();
   }
   return false;
+}
+function countryCode(c) {
+  var img = c.children[0].src;
+  var i = img.lastIndexOf('/')+1;
+  return img.substring(i, i+3);
 }
 function country_click(event) {
   if ( event.ctrlKey ) {
@@ -228,7 +230,7 @@ function country_click(event) {
       this.className = "country winner1"; 
     } else if (this.className == "country winner1") { 
       $(this).parent().parent().find(".country.winner2")[0].className = "country winner1";
-      this.className = "country winner2"; 
+      this.className = "country winner2";
     }
   } else {
     if (this.className == "country") {
@@ -261,7 +263,7 @@ function group_stage() {
   for (var i = 0; i < group_keys.length; i++) {
     var code = group_keys[i];
     // sort countries in group by rank
-    groups[code] = groups[code].sort(function (c1, c2) { return countries[c1].rank - countries[c2].rank; });
+    groups[code] = groups[code].sort(groupSort);
     html += "<div class=\"group\"><span class=\"group\">"+ code +"</span><ul>";
     for (var j = 0; j < groups[code].length; j++) {
       var c = countries[groups[code][j]];
@@ -276,6 +278,10 @@ function group_stage() {
   html += "</div>";
   html += "</div>";
   addContent(html);
+  }
+
+function groupSort(c1, c2) {
+  return countries[c1].rank - countries[c2].rank;
 }
 
 function eighths_and_quarters(a,b,c,d) {
@@ -307,8 +313,7 @@ function oppose(a,b) {
   var l = b;
   var aWin = 1;
   var bWin = 0;
-  var diff = b.rank - a.rank;
-  if (a.rank > b.rank) { w = b; l = a; aWin = 0; bWin = 1; diff = -diff; }
+  if (a.rank > b.rank) { w = b; l = a; aWin = 0; bWin = 1; }
   addContent("<div>");
   addContent("<div>" + toHtml(a, aWin) + " <span class=\"vs\">vs.</span> " + toHtml(b, bWin) + "</div>");
   addContent("</div>");
