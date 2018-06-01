@@ -171,8 +171,8 @@ function displayAll() {
   addContent("<div class=\"groupz\">");
   addContent("<div class=\"semis\">");
   addContent("<div>semifinals</div>");
-  var f1 = oppose(abcd[0],efgh[0])
-  var f2 = oppose(abcd[1],efgh[1])
+  var f1 = oppose(abcd[0],efgh[0], 's_1')
+  var f2 = oppose(abcd[1],efgh[1], 's_2')
   addContent("</div>")
   addContent("</div>")
 
@@ -180,13 +180,13 @@ function displayAll() {
   addContent("<div class=\"groupz\">");
   addContent("<div class=\"third\">");
   addContent("<div>third place</div>");
-  var l = oppose(f1[1],f2[1])
+  var t = oppose(f1[1],f2[1], 't')
   addContent("</div>")
   addContent("</div>")
   addContent("<div class=\"groupz\">");
   addContent("<div class=\"finals\">");
   addContent("<div>final</div>");
-  var w = oppose(f1[0],f2[0])
+  var w = oppose(f1[0],f2[0], 'f')
   addContent("</div>")
   addContent("</div>")
 
@@ -219,9 +219,9 @@ function country_click(event) {
     //return;
   }
   // clicking on a country makes it a winner if it wasn't one before
+  var e;
   if (this.parentElement.parentElement.parentElement.className == "group") {
     var group = $(this).parent().parent();
-    var e;
     // in first-stage group, click number two to make it swap to number one, and vice-versa
     if (this.className == "country") {
       // clicked becomes number one, number one becomes number two, and number two becomes nothing
@@ -245,8 +245,10 @@ function country_click(event) {
     displayAll();
   } else {
     if (this.className == "country") {
-      $(this).siblings('.country')[0].className = "country";
-      this.className = "country winner1";
+      e = $(this).siblings('.country')[0];
+      e.className = "country";
+      e = this;
+      e.className = "country winner1";
     }
   }
 }
@@ -313,29 +315,30 @@ function group_stage() {
 }
 
 function eighths_and_quarters(a,b,c,d) {
+  var glabel = (a + b + c + d).toLowerCase();
+  console.log(glabel);
   addContent("<div class=\"group2\">");
   addContent("<div class=\"eighths\">");
   addContent("<div>eighths <span class=\"rank\">"+ a+b+c+d +"</span></div>");
-  var ab = group_first_vs_second(a,b)
-  var cd = group_first_vs_second(c,d)
-  var ba = group_first_vs_second(b,a)
-  var dc = group_first_vs_second(d,c)
+  var ab = group_first_vs_second(a,b, 'e_'+glabel+'_1')
+  var cd = group_first_vs_second(c,d, 'e_'+glabel+'_2')
+  var ba = group_first_vs_second(b,a, 'e_'+glabel+'_3')
+  var dc = group_first_vs_second(d,c, 'e_'+glabel+'_4')
   addContent("</div>");
 
   addContent("<div class=\"quarters\">");
   addContent("<div>quarters <span class=\"rank\">"+ a+b+c+d +"</span></div>");
-  var abcd = oppose(ab[0],cd[0])
-  var badc = oppose(ba[0],dc[0])
+  var abcd = oppose(ab[0],cd[0], 'q_'+glabel+'_1')
+  var badc = oppose(ba[0],dc[0], 'q_'+glabel+'_2')
   addContent("</div>");
   addContent("</div>");
 
   return [abcd[0],badc[0]];
 }
 
-function group_first_vs_second(a,b) {
-  return oppose(group_winner(a,1), group_winner(b,2));
+function group_first_vs_second(a,b, glabel) {
+  return oppose(group_winner(a,1), group_winner(b,2), glabel);
 }
-
 function group_winner(g, n) {
   var label = 'winner' + n;
   var id;
@@ -346,14 +349,14 @@ function group_winner(g, n) {
   return countries[groups[g][i-1]];
 }
 
-function oppose(a,b) {
+function oppose(a,b, glabel) {
   var w = a;
   var l = b;
   var aWin = 'winner1';
   var bWin = '';
   if (a.rank > b.rank) { w = b; l = a; aWin = ''; bWin = 'winner1'; }
   addContent("<div>");
-  addContent("<div>" + toHtml(a, aWin) + " <span class=\"vs\">vs.</span> " + toHtml(b, bWin) + "</div>");
+  addContent("<div>" + toHtml(a, aWin, glabel+'_1') + " <span class=\"vs\">vs.</span> " + toHtml(b, bWin, glabel+'_2') + "</div>");
   addContent("</div>");
   return [w,l];
 }
