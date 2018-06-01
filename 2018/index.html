@@ -152,11 +152,13 @@ var countriesAlpha = [
   ];
 
 var groups;
+var group_keys;
+var elements;
 
+init(true);
 displayAll();
 
 function displayAll() {
-  init();
   setContent("<div class=\"center\">")
 
   group_stage();
@@ -203,6 +205,7 @@ function rank_click(event) {
   var r = window.prompt('New ranking for ' + c.children[1].childNodes[0].nodeValue +':', c.children[1].children[0].innerText);
   if (r != null && !isNaN(r)) {
     countries[countryCode(c)].rank = r; // set new ranking
+    init(false);
     displayAll();
   }
   return false;
@@ -219,19 +222,29 @@ function country_click(event) {
   }
   // clicking on a country makes it a winner if it wasn't one before
   if (this.parentElement.parentElement.parentElement.className == "group") {
+    var group = $(this).parent().parent();
+    var e;
     // in first-stage group, click number two to make it swap to number one, and vice-versa
     if (this.className == "country") {
       // clicked becomes number one, number one becomes number two, and number two becomes nothing
-      $(this).parent().parent().find(".country.winner2")[0].className = "country";
-      $(this).parent().parent().find(".country.winner1")[0].className = "country winner2";
-      this.className = "country winner1";
-    } else if (this.className == "country winner2") { 
-      $(this).parent().parent().find(".country.winner1")[0].className = "country winner2";
-      this.className = "country winner1"; 
+      e = group.find(".country.winner2")[0];
+      e.className = "country"; elements[e.id] = "";
+      e = group.find(".country.winner1")[0];
+      e.className = "country winner2"; elements[e.id] = "winner2";
+      e = this;
+      e.className = "country winner1"; elements[e.id] = "winner1";
+    } else if (this.className == "country winner2") {
+      e = group.find(".country.winner1")[0];
+      e.className = "country winner2"; elements[e.id] = "winner2";
+      e = this;
+      e.className = "country winner1"; elements[e.id] = "winner1";
     } else if (this.className == "country winner1") { 
-      $(this).parent().parent().find(".country.winner2")[0].className = "country winner1";
-      this.className = "country winner2";
+      e = group.find(".country.winner2")[0];
+      e.className = "country winner1"; elements[e.id] = "winner1";
+      e = this;
+      e.className = "country winner2"; elements[e.id] = "winner2";
     }
+    displayAll();
   } else {
     if (this.className == "country") {
       $(this).siblings('.country')[0].className = "country";
@@ -241,34 +254,53 @@ function country_click(event) {
 }
 
 // set up groups hash table
-function init() {
-  groups = {};
-  var country_keys = Object.keys(countries);
-  for (var i = 0; i < country_keys.length; i++) {
-    var code = country_keys[i]
-    var c = countries[code];
-    c.code = code;
-    autopush(groups, c.group, code);
+function init(all) {
+  if (all) {  
+    groups = {};
+    elements = {};
+    var country_keys = Object.keys(countries);
+    for (var i = 0; i < country_keys.length; i++) {
+      var code = country_keys[i]
+      var c = countries[code];
+      c.code = code;
+      autopush(groups, c.group, code);
+    }  
+    group_keys = Object.keys(groups).sort();
   }
+  // determine initial group rankings
+  for (var i = 0; i < group_keys.length; i++) {
+    var code = group_keys[i];
+    // sort countries in group by rank
+    groups[code] = groups[code].sort(groupSort); 
+    for (var j = 0; j < groups[code].length; j++) {
+      // store initial rankings in storage that can be manually overriden
+      var id = groupElementId(code, j+1);
+      elements[id] = j < 2 ? 'winner'+(j+1) : ""; // the top two of a group have winner1 or 2 class
+    }
+  }
+}
+function groupElementId(code, n) {
+  return 'g_' + code.toLowerCase() + '_' + n;
+}
+function groupSort(c1, c2) {
+  return countries[c1].rank - countries[c2].rank;
 }
 
 function group_stage() {
   var html = "";
-  var group_keys = Object.keys(groups).sort();
   html += "<div class=\"group_stage\">\n"
-  html += "<div>2018 FIFA World Cup Russia™ - group stage - <button onclick=\"showHelp(true)\">Help</button></div>\n";
+  html += "<div>2018 FIFA World Cup Russia™ - group stage - <button onclick=\"showHelp(true)\">Help</button> - <button onclick=\"displayAll()\">Refresh</button></div>\n";
 
   html += "<div class=\"groupx\">\n"
   html += "<div class=\"groupx\">\n"
   for (var i = 0; i < group_keys.length; i++) {
     var code = group_keys[i];
-    // sort countries in group by rank
-    groups[code] = groups[code].sort(groupSort);
     html += "<div class=\"group\"><span class=\"group\">"+ code +"</span><ul>";
     for (var j = 0; j < groups[code].length; j++) {
       var c = countries[groups[code][j]];
-      var winClass = j < 2 ? 'winner'+(j+1) : ""; // the top two of a group have winner1 or 2 class
-      html += "<li>"+toHtml(c, winClass)+"</li>";
+      var id = 'g_' + code.toLowerCase() + '_' + (j+1);
+      var winClass = elements[id];
+      html += "<li>"+toHtml(c, winClass, id)+"</li>";
     }
     html += "</ul></div>\n";
     if (i%2 == 1) { html += "</div>\n"; }
@@ -281,18 +313,14 @@ function group_stage() {
   addContent(html);
   }
 
-function groupSort(c1, c2) {
-  return countries[c1].rank - countries[c2].rank;
-}
-
 function eighths_and_quarters(a,b,c,d) {
   addContent("<div class=\"group2\">");
   addContent("<div class=\"eighths\">");
   addContent("<div>eighths <span class=\"rank\">"+ a+b+c+d +"</span></div>");
-  var ab = first_vs_second(a,b)
-  var cd = first_vs_second(c,d)
-  var ba = first_vs_second(b,a)
-  var dc = first_vs_second(d,c)
+  var ab = group_first_vs_second(a,b)
+  var cd = group_first_vs_second(c,d)
+  var ba = group_first_vs_second(b,a)
+  var dc = group_first_vs_second(d,c)
   addContent("</div>");
 
   addContent("<div class=\"quarters\">");
@@ -305,8 +333,18 @@ function eighths_and_quarters(a,b,c,d) {
   return [abcd[0],badc[0]];
 }
 
-function first_vs_second(a,b) {
-  return oppose(countries[groups[a][0]],countries[groups[b][1]])
+function group_first_vs_second(a,b) {
+  return oppose(group_winner(a,1), group_winner(b,2));
+}
+
+function group_winner(g, n) {
+  var label = 'winner' + n;
+  var id;
+  for (var i = 1; i <= 4; i++) {
+    id = groupElementId(g, i);
+    if (elements[id] == label) break;
+  }
+  return countries[groups[g][i-1]];
 }
 
 function oppose(a,b) {
@@ -326,9 +364,10 @@ function setContent(html) { htmlContent = html }
 function addContent(html) { htmlContent += html }
 function displayContent() { document.getElementById("content").innerHTML = htmlContent }
 
-function toHtml(c, winclass) {
+function toHtml(c, winclass, id) {
   if (winclass !== "") winclass = " "+winclass;
-  return "<span class=\"country"+winclass+"\"><img alt=\"\" src=\""+c.code+".png\"> <span>"+c.name+"<span class=\"rank\">"+c.rank+"</span>"+"</span>"+"</span>"
+  var idtext = (typeof id != "undefined") ? "id=\""+id+"\" " : "";
+  return "<span class=\"country"+winclass+"\""+idtext+"><img alt=\"\" src=\""+c.code+".png\"> <span>"+c.name+"<span class=\"rank\">"+c.rank+"</span>"+"</span>"+"</span>"
 }
 
 // push value to autovivified array stored at specified key of an object
@@ -348,7 +387,7 @@ function showHelp(show) {
 }
 
 </script>
-<div id="help" xonclick="showHelp(false)">
+<div id="help">
 <div id="helpcontent">
 <div id="closehelp"><button onclick="showHelp(false)">Close Help</button></div>
 <p>These are the countries taking part in the 2018 FIFA World Cup Russia™.</p>
