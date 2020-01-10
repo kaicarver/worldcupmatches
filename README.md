@@ -9,7 +9,7 @@ Try it out:
 
 (UNDER CONSTRUCTION)
 
-https://rawgit.com/kaicarver/worldcupmatches/master/2018/index.html
+https://raw.githack.com/kaicarver/worldcupmatches/master/2018/index.html
 
 2014:
 
